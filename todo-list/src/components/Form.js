@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect}from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 const Form = ({ input, setInput, todoItems, setTodoItems, editTodoItem, setEditTodoItem }) => {
@@ -9,6 +9,14 @@ const Form = ({ input, setInput, todoItems, setTodoItems, editTodoItem, setEditT
     setTodoItems(newTodoItem);
     setEditTodoItem("");
   };
+  useEffect(() => {
+    if(editTodoItem){
+      setInput(editTodoItem.title);
+    }else{
+      setInput("")
+    }
+  }, [setInput, editTodoItem]); 
+
   const onInputChange = (event) => {
     setInput(event.target.value);
   };
@@ -31,7 +39,9 @@ const Form = ({ input, setInput, todoItems, setTodoItems, editTodoItem, setEditT
         required
         onChange={onInputChange}
       />
-      <button className="button-add" type='submit'>Add</button>
+      <button className="button-add" type='submit'>
+        {editTodoItem ? "OK" : "Add"}
+      </button>
     </form>
   );
 };
